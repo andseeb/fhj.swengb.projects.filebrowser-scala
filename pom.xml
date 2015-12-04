@@ -102,7 +102,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>fhj.swengb.projects.FileBrowser</mainClass>
+                            <mainClass>fhj.swengb.projects.FileBrowserApp</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
