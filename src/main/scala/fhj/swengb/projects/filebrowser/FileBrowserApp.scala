@@ -3,15 +3,17 @@ package fhj.swengb.projects.filebrowser
 import java.net.URL
 import java.util.ResourceBundle
 import javafx.application.Application
-import javafx.event.EventHandler
+import javafx.event.{EventType, Event, EventHandler}
 import javafx.fxml.{FXML, FXMLLoader, Initializable}
+import javafx.scene.control.TreeItem.TreeModificationEvent
 import javafx.scene.control.{TreeItem, TreeView}
 import javafx.scene.effect.DropShadow
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.{AnchorPane, BorderPane}
 import javafx.scene.shape.{Line, StrokeType}
-import javafx.scene.{Parent, Scene}
+import javafx.scene.{Parent, Scene, Node}
 import javafx.stage.Stage
+import java.io.File
 
 
 import scala.collection.JavaConversions._
@@ -55,33 +57,41 @@ class FileBrowserAppController extends Initializable {
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
 
 
-    val root : TreeItem[String] = new TreeItem[String]("Root Node")
-    root.setExpanded(false)
+    //val root : FileTreeItem[File] = createNode(new File("/"));
+
+
+    val root2: TreeItem[String] = new TreeItem[String]("Root Node")
+    root2.setExpanded(false)
+
+
+    root2.addEventHandler(TreeItem.branchExpandedEvent[String](), expandedEventHandler)
+
+
+
+
 
     val item1 = new TreeItem[String]("Item 1")
-    item1.addEventHandler(MouseEvent.MOUSE_CLICKED, itemEventHandler)
+    //item1.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler)
     val item2 = new TreeItem[String]("Item 2")
-    item2.addEventHandler(MouseEvent.MOUSE_CLICKED, itemEventHandler)
+    //item2.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler)
     val item3 = new TreeItem[String]("Item 3")
-    item3.addEventHandler(MouseEvent.MOUSE_CLICKED, itemEventHandler)
-    root.getChildren().addAll(item1, item2, item3)
+    //item3.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEventHandler)
 
-    val treeView : TreeView[String] = new TreeView[String](root)
-
+    // https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TreeItem.html
 
 
+    root2.getChildren().addAll(item1, item2, item3)
+    val treeView: TreeView[String] = new TreeView[String](root2)
 
     borderPane.setCenter(treeView)
 
 
-
-    println("TODO")
   }
 
-def itemEventHandler[_ >:MouseEvent] = new EventHandler[MouseEvent] {
-    def handle(event: MouseEvent) {
+def expandedEventHandler[_ >:TreeModificationEvent[String]] = new EventHandler[TreeModificationEvent[String]]() {
+    def handle(event: TreeModificationEvent[String]) {
       event.getSource match {
-        case ti: TreeItem[_] => println("itemEventHandler")
+        case ti: TreeItem[_] => println("expandedEventHandler")
         case a => println(a.getClass)
       }
     }
