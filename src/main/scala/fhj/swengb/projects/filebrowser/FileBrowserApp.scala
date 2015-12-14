@@ -28,7 +28,7 @@ object FileBrowserApp {
 
 class FileBrowserApp extends javafx.application.Application {
 
-  val Fxml = "/fhj/swengb/projects/remotefilebrowser/Gui.fxml"
+  val Fxml = "/fhj/swengb/projects/filebrowser/Gui.fxml"
 
   val loader = new FXMLLoader(getClass.getResource(Fxml))
 
