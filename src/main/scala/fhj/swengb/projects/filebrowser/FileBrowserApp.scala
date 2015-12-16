@@ -31,7 +31,7 @@ class FileBrowserApp extends javafx.application.Application {
   val loader = new FXMLLoader(getClass.getResource(Fxml))
   override def start(stage: Stage): Unit = try {
     stage.setTitle("Remote File Browser")
-    loader.load[Parent]() // side effect
+    loader.load[Parent]()
     val scene = new Scene(loader.getRoot[Parent])
     stage.setScene(scene)
     stage.show()
@@ -45,9 +45,11 @@ class FileBrowserApp extends javafx.application.Application {
 
 
 class FileBrowserAppController extends Initializable {
-
+  // GUI set up
   @FXML var borderPane: BorderPane = _
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
+
+    // root Node
     val root: TreeItem[File] = new TreeItem[File](new File("."))
     addChildFiles(root, mkObservableFiles("."))
     root.setExpanded(true)
@@ -56,7 +58,6 @@ class FileBrowserAppController extends Initializable {
     treeView.setEditable(true)
     treeView.getSelectionModel.selectedItemProperty.addListener(SwengbJfxUtil.onChange(selectFile))
     treeView.setCellFactory(FbUtil.mkTreeCellFactory(FbUtil.show {
-      //case f if f.isDirectory => "[DIR] " + f.getName
       case f if f.isDirectory => f.getName
       case f => f.getName
     }))
