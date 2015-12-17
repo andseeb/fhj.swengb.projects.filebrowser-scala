@@ -14,12 +14,14 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 
-import net.ladstatt.Util.SwengbJfxUtil
 
 import scala.collection.JavaConversions._
 import scala.util.control.NonFatal
 
+/*
+  Object erstellen um JavaFX GUI anzuzeigen
 
+*/
 object FileBrowserApp {
   def main(args: Array[String]) {
     Application.launch(classOf[FileBrowserApp], args: _*)
@@ -27,15 +29,15 @@ object FileBrowserApp {
 }
 
 class FileBrowserApp extends javafx.application.Application {
-  val Fxml = "/fhj/swengb/projects/filebrowser/Gui.fxml"
-  val loader = new FXMLLoader(getClass.getResource(Fxml))
+  val Fxml = "/fhj/swengb/projects/filebrowser/Gui.fxml" // FXML Pfadvariable
+  val loader = new FXMLLoader(getClass.getResource(Fxml)) // FXML Loader Funktion mit Variable aufrufen
   override def start(stage: Stage): Unit = try {
-    stage.setTitle("Remote File Browser")
+    stage.setTitle("Remote File Browser") // Titelleiste in Anzeigefenster beschriften
     loader.load[Parent]()
-    val scene = new Scene(loader.getRoot[Parent])
+    val scene = new Scene(loader.getRoot[Parent]) // neue scene aufrufen
     stage.setScene(scene)
     stage.show()
-  } catch {
+  } catch { // Errorhandling für fxml zeug
     case NonFatal(e) => {
       e.printStackTrace()
     }
@@ -46,41 +48,42 @@ class FileBrowserApp extends javafx.application.Application {
 
 class FileBrowserAppController extends Initializable {
   // GUI set up
-  @FXML var borderPane: BorderPane = _
+  @FXML var borderPane: BorderPane = _  // borderPane ist ID in FXML -> zugriff auf file
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
 
     // root Node
-    val root: TreeItem[File] = new TreeItem[File](new File("."))
-    addChildFiles(root, mkObservableFiles("."))
-    root.setExpanded(true)
+    val root: TreeItem[File] = new TreeItem[File](new File(".")) // root Node wird erstellt
+    addChildFiles(root, mkObservableFiles(".")) // root wird befüllt
+    root.setExpanded(true) // ausklappen von root node
 
-    val treeView: TreeView[File] = new TreeView[File](root)
-    treeView.setEditable(true)
-    treeView.getSelectionModel.selectedItemProperty.addListener(SwengbJfxUtil.onChange(selectFile))
-    treeView.setCellFactory(FbUtil.mkTreeCellFactory(FbUtil.show {
-      case f if f.isDirectory => f.getName
-      case f => f.getName
+    val treeView: TreeView[File] = new TreeView[File](root) // Tree wird erstellt
+    treeView.setEditable(true) // not sure if necessary ( Tree editierbar)
+    treeView.getSelectionModel.selectedItemProperty.addListener(FbUtil.onChange(selectFile)) // Select File aufrufen bei Auswahl/Änderung von TreeItem
+    treeView.setCellFactory(FbUtil.mkTreeCellFactory(FbUtil.show { // Ruft mkTreeCellFactory Funktion aus FBUtil.scala file auf
+      case f if f.isDirectory => f.getName // Wenn directory Name hinschreiben (möglichkeit ordner "anders" zu behandeln als files)
+      case f => f.getName // wenn nicht Directory -> Name holen und hinschreiben
     }))
 
-    root.addEventHandler(TreeItem.branchExpandedEvent[File](), expandedEventHandler)
-    treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler)
+    root.addEventHandler(TreeItem.branchExpandedEvent[File](), expandedEventHandler) // wenn ausgeklappt -> expandedEventHandler aufrufen
+    treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler) // bei klick auf tree item wird mouseClickEventHandler aufgerufen
 
-    borderPane.setCenter(treeView)
+    borderPane.setCenter(treeView) // Treeview zentriert in Borderpane einfügen
   }
 
   // helper methods
 
-  def mkObservableFiles(path: String) = SwengbJfxUtil.mkObservableList(new File(path).listFiles())
+  def mkObservableFiles(path: String) = FbUtil.mkObservableList(new File(path).listFiles()) // Ruft mkObservableList Funktion aus FBUtil.scala file auf
+
 
   def addChildFiles(treeItem: TreeItem[File], files: ObservableList[File]): Unit = {
-    for (file <- files) {
-      if (file.isDirectory) {
-        var childTreeItem = new TreeItem[File](file)
-        childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up
-        childTreeItem.setExpanded(false)
-        treeItem.getChildren().add(childTreeItem)
-      } else {
-        treeItem.getChildren().add(new TreeItem[File](file))
+    for (file <- files) { // für alle Files im Ordner
+      if (file.isDirectory) { // wenn directory
+        var childTreeItem = new TreeItem[File](file) // neues TreeItem erstellen
+        childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up ( Platzhalter damit Ordner  mit "expandable" arrow angezeigt wird )
+        childTreeItem.setExpanded(false) // nicht ausgeklappt
+        treeItem.getChildren().add(childTreeItem) // aktuelles Item als Child hinzufügen
+      } else { // wenn nicht directory
+        treeItem.getChildren().add(new TreeItem[File](file)) // neues TreeItem erstellen und als Child hinzufügen
       }
     }
   }
@@ -90,22 +93,22 @@ class FileBrowserAppController extends Initializable {
   // event handlers, etc..
 
   def selectFile(oldFile: TreeItem[File], newFile: TreeItem[File]): Unit = {
-    println("selectedFile: " + newFile)
+    println("selectedFile: " + newFile) // print selected File (not in use yet)
   }
 
-  def expandedEventHandler[_ >:TreeModificationEvent[File]] = new EventHandler[TreeModificationEvent[File]]() {
+  def expandedEventHandler[_ >:TreeModificationEvent[File]] = new EventHandler[TreeModificationEvent[File]]() { // bei klick auf expand Ordner in GUI
       def handle(event: TreeModificationEvent[File]) {
         event.getSource match {
           case treeItem: TreeItem[_] => {
             println("expandedEventHandler TreeItem: " + treeItem)
-            println(treeItem.valueProperty().get().getAbsolutePath)
+            println(treeItem.valueProperty().get().getAbsolutePath) // Print auswahl
             println(treeItem.getChildren)
 
-            treeItem.getChildren.clear()
-            addChildFiles(treeItem, mkObservableFiles(treeItem.getValue.getAbsolutePath))
+            treeItem.getChildren.clear() // Platzhalter für arrow wird wieder gelöscht
+            addChildFiles(treeItem, mkObservableFiles(treeItem.getValue.getAbsolutePath)) // Alle Listeninhalte werden als neue ChildElemente hinzugefügt
             treeItem.setExpanded(true)
           }
-          case a => {
+          case a => { // sollte nie zu verwendung kommen da nur auf TreeItems geklickt werden kann (bis jetzt)
             println("expandedEventHandler otherClass: " + a.getClass)
           }
         }
@@ -113,16 +116,15 @@ class FileBrowserAppController extends Initializable {
     }
 
 
-  def mouseClickedEventHandler[_ >:MouseEvent] = new EventHandler[MouseEvent]() {
+  def mouseClickedEventHandler[_ >:MouseEvent] = new EventHandler[MouseEvent]() { // Bei Klick auf Item
     def handle(event: MouseEvent) {
       event.getSource match {
         case treeView: TreeView[_] => {
           val item = treeView.getSelectionModel.getSelectedItem
-          println("mouseClickedEventHandler TreeView: " + item)
-          item
+          println("mouseClickedEventHandler TreeView: " + item) // Pfad wird geprintet
         }
         case a => {
-          println("mouseClickedEventHandler otherClass: " + a.getClass)
+          println("mouseClickedEventHandler otherClass: " + a.getClass) // sollte auch nie matchen
         }
       }
     }
