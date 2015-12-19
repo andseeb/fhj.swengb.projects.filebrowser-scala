@@ -34,10 +34,10 @@ class FileBrowserApp extends javafx.application.Application {
   override def start(stage: Stage): Unit = try {
     stage.setTitle("Remote File Browser") // Titelleiste in Anzeigefenster beschriften
     loader.load[Parent]()
-    val scene = new Scene(loader.getRoot[Parent]) // neue scene aufrufen
+    val scene = new Scene(loader.getRoot[Parent]) // neue Scene aufrufen
     stage.setScene(scene)
     stage.show()
-  } catch { // Errorhandling für fxml zeug
+  } catch { // Errorhandling für FXML gui
     case NonFatal(e) => {
       e.printStackTrace()
     }
@@ -48,7 +48,7 @@ class FileBrowserApp extends javafx.application.Application {
 
 class FileBrowserAppController extends Initializable {
   // GUI set up
-  @FXML var borderPane: BorderPane = _  // borderPane ist ID in FXML -> zugriff auf file
+  @FXML var borderPane: BorderPane = _  // borderPane ist ID in FXML -> zugriff auf File
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
 
     // root Node
@@ -57,7 +57,6 @@ class FileBrowserAppController extends Initializable {
     root.setExpanded(true) // ausklappen von root node
 
     val treeView: TreeView[File] = new TreeView[File](root) // Tree wird erstellt
-    treeView.setEditable(true) // not sure if necessary ( Tree editierbar)
     treeView.getSelectionModel.selectedItemProperty.addListener(FbUtil.onChange(selectFile)) // Select File aufrufen bei Auswahl/Änderung von TreeItem
     treeView.setCellFactory(FbUtil.mkTreeCellFactory(FbUtil.show { // Ruft mkTreeCellFactory Funktion aus FBUtil.scala file auf
       case f if f.isDirectory => f.getName // Wenn directory Name hinschreiben (möglichkeit ordner "anders" zu behandeln als files)
@@ -77,7 +76,7 @@ class FileBrowserAppController extends Initializable {
 
   def addChildFiles(treeItem: TreeItem[File], files: ObservableList[File]): Unit = {
     for (file <- files) { // für alle Files im Ordner
-      if (file.isDirectory) { // wenn directory
+      if (file.isDirectory) { // wenn Directory
         var childTreeItem = new TreeItem[File](file) // neues TreeItem erstellen
         childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up ( Platzhalter damit Ordner  mit "expandable" arrow angezeigt wird )
         childTreeItem.setExpanded(false) // nicht ausgeklappt
@@ -124,7 +123,7 @@ class FileBrowserAppController extends Initializable {
           println("mouseClickedEventHandler TreeView: " + item) // Pfad wird geprintet
         }
         case a => {
-          println("mouseClickedEventHandler otherClass: " + a.getClass) // sollte auch nie matchen
+          println("mouseClickedEventHandler otherClass: " + a.getClass) // wird als "null" gematch, wenn auf "expand"-Arrow geklickt wird
         }
       }
     }

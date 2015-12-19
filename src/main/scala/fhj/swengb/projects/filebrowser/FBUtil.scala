@@ -8,9 +8,6 @@ import javafx.util.Callback
 
 import scala.collection.JavaConversions
 
-/**
-  * Created by Andreas on 14.12.2015.
-  */
 object FbUtil {
 
 
