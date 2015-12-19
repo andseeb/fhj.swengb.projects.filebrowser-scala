@@ -50,6 +50,7 @@ object FbUtil {
         if (t != null) {
           setText(typeToString(t))
         }
+        else setText(null)
       }
     }
     new ATreeCell()
