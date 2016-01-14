@@ -1,0 +1,23 @@
+package fhj.swengb.projects.filebrowser
+
+import java.io.File
+import javafx.scene.Node
+import javafx.scene.control.{Label, TextField, TextArea}
+import javafx.scene.layout.{BorderPane, AnchorPane}
+
+
+object FileViewerUtil {
+  def createNode(file: File) : Node = file match {
+    // TODO: create more cases for different file types (eg for images, videos, audio)
+    // TODO: create case for folders
+    case textFile if FilePropertiesUtil.isTextFile(file) =>
+      val textArea = new TextArea()
+      textArea.setText(scala.io.Source.fromFile(textFile).getLines.mkString("\n")) // TODO: verify if correct character encoding is chosen automatically
+      textArea
+    case _ =>
+      val defaultNode = new BorderPane()
+      defaultNode.setCenter(new Label("No preview available"))
+      //defaultNode.setStyle("-fx-background-color: gray;")
+      defaultNode
+  }
+}
