@@ -14,4 +14,10 @@ object FilePropertiesUtil {
       file.getName.endsWith(".csv") | file.getName.endsWith(".md")
   }
   // TODO: create more file definitions
+  def isPicture(file: File) : Boolean = {
+    file.getName.endsWith(".jpg") | file.getName.endsWith(".png") |
+      file.getName.endsWith(".ico") | file.getName.endsWith(".svg") |
+      file.getName.endsWith(".bmp") | file.getName.endsWith(".gif")
+
+  }
 }
