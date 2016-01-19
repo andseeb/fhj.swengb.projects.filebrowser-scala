@@ -48,13 +48,12 @@ object FbUtil {
         super.updateItem(t, empty)
         if (t != null) {
           setText(typeToString(t))
-          println(t.asInstanceOf[File])
           val iconView = t.asInstanceOf[File] match {
             case folder if folder.isDirectory => new ImageView("/fhj/swengb/projects/filebrowser/Downloads-Black-Folder-icon.png")
             case textFile if FilePropertiesUtil.isTextFile(textFile) => new ImageView("/fhj/swengb/projects/filebrowser/txt.png")
             case _ => new ImageView()
           }
-          if (t.asInstanceOf[File].isDirectory) setGraphic(iconView)
+          setGraphic(iconView)
         }
         else {
           setText(null)
