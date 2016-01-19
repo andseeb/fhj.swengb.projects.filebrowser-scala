@@ -79,7 +79,7 @@ class FileBrowserAppController extends Initializable {
 
   // helper methods
 
-  def mkObservableFiles(path: String) = FbUtil.mkObservableList(new File(path).listFiles()) // Ruft mkObservableList Funktion aus FBUtil.scala file auf
+  def mkObservableFiles(path: String) = FbUtil.mkObservableList(new File(path).listFiles().sortBy(_.getName)) // Ruft mkObservableList Funktion aus FBUtil.scala file auf
 
 
   def addChildFiles(treeItem: TreeItem[File], files: ObservableList[File]): Unit = {
