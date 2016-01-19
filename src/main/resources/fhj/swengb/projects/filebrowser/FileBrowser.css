@@ -1,0 +1,21 @@
+.tree-cell {
+    -fx-font-size: 13pt;
+}
+/*
+.tree-cell .tree-disclosure-node .arrow {
+    -fx-shape: null;
+    -fx-background-color: null;
+    -fx-background-image: url("/fhj/swengb/projects/filebrowser/folder-2.png");
+    -fx-background-size: cover;
+}
+.tree-cell:expanded .tree-disclosure-node .arrow {
+    -fx-shape: null;
+    -fx-background-color: null;
+    -fx-background-image: url("/fhj/swengb/projects/filebrowser/folder-2.png");
+    -fx-background-size: cover;
+}
+
+.tree-cell .folder {
+    -fx-background-image: url("/fhj/swengb/projects/filebrowser/folder-2.png");
+    -fx-background-size: cover;
+}*/

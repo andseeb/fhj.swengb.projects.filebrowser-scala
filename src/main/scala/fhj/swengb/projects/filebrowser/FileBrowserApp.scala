@@ -41,6 +41,7 @@ class FileBrowserApp extends javafx.application.Application {
     stage.setScene(scene)
     stage.getScene.getStylesheets.add(Css)
     stage.show()
+
   } catch { // Errorhandling für FXML gui
     case NonFatal(e) => {
       e.printStackTrace()
@@ -56,9 +57,10 @@ class FileBrowserAppController extends Initializable {
   @FXML var fileViewerPane: AnchorPane = _
   override def initialize(location: URL, resources: ResourceBundle): Unit = {
 
+
     // root Node
-    val root: TreeItem[File] = new TreeItem[File](new File(".")) // root Node wird erstellt
-    addChildFiles(root, mkObservableFiles(".")) // root wird befüllt
+    val root: TreeItem[File] = new TreeItem[File](new File("/")) // root Node wird erstellt
+    addChildFiles(root, mkObservableFiles("/")) // root wird befüllt
     root.setExpanded(true) // ausklappen von root node
 
     val treeView: TreeView[File] = new TreeView[File](root) // Tree wird erstellt
