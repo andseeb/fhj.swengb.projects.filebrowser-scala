@@ -3,6 +3,7 @@ package fhj.swengb.projects.filebrowser
 import java.io.File
 import javafx.scene.Node
 import javafx.scene.control.{Label, TextField, TextArea}
+import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{BorderPane, AnchorPane}
 
 
@@ -14,6 +15,10 @@ object FileViewerUtil {
       val textArea = new TextArea()
       textArea.setText(scala.io.Source.fromFile(textFile).getLines.mkString("\n")) // TODO: verify if correct character encoding is chosen automatically
       textArea
+
+    case picture if FilePropertiesUtil.isPicture(file) =>
+      new ImageView(file.toURI.toString)
+
     case _ =>
       val defaultNode = new BorderPane()
       defaultNode.setCenter(new Label("No preview available"))
