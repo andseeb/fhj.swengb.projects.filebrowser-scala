@@ -51,7 +51,9 @@ object FbUtil {
           val iconView = t.asInstanceOf[File] match {
             case folder if folder.isDirectory => new ImageView("/fhj/swengb/projects/filebrowser/Downloads-Black-Folder-icon.png")
             case textFile if FilePropertiesUtil.isTextFile(textFile) => new ImageView("/fhj/swengb/projects/filebrowser/txt.png")
-            case _ => new ImageView()
+            case picture if FilePropertiesUtil.isPicture(picture) => new ImageView("/fhj/swengb/projects/filebrowser/picture.png")
+            case executable if FilePropertiesUtil.isExecFile(executable) => new ImageView("/fhj/swengb/projects/filebrowser/exe.png")
+            case _ => new ImageView("/fhj/swengb/projects/filebrowser/file.png")
           }
           setGraphic(iconView)
         }

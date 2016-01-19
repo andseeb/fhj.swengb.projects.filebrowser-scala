@@ -20,4 +20,10 @@ object FilePropertiesUtil {
       file.getName.endsWith(".bmp") | file.getName.endsWith(".gif")
 
   }
+  def isExecFile(file: File) : Boolean = {
+    file.getName.endsWith(".exe") | file.getName.endsWith(".bat") |
+      file.getName.endsWith(".ps") | file.getName.endsWith(".cmd") |
+      file.getName.endsWith(".msi") | file.getName.endsWith(".sh")
+
+  }
 }
