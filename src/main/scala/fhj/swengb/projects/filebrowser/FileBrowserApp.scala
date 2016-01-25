@@ -11,7 +11,7 @@ import javafx.scene.control.TreeItem.TreeModificationEvent
 import javafx.scene.control.{TextArea, ScrollPane, TreeItem, TreeView}
 import javafx.scene.input.{MouseButton, MouseEvent}
 import javafx.scene.layout.{AnchorPane, BorderPane}
-import javafx.scene.{Parent, Scene}
+import javafx.scene.{Node, Parent, Scene}
 import javafx.stage.Stage
 
 
@@ -72,7 +72,7 @@ class FileBrowserAppController extends Initializable {
     }))
 
     root.addEventHandler(TreeItem.branchExpandedEvent[File](), expandedEventHandler) // wenn ausgeklappt -> expandedEventHandler aufrufen
-    treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler) // bei klick auf tree item wird mouseClickEventHandler aufgerufen
+    //treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler) // bei klick auf tree item wird mouseClickEventHandler aufgerufen
 
     mainScrollPane.setContent(treeView) // Treeview in ScrollPane einfügen
   }
@@ -128,39 +128,5 @@ class FileBrowserAppController extends Initializable {
       }
     }
 
-
-  def mouseClickedEventHandler[_ >:MouseEvent] = new EventHandler[MouseEvent]() { // Bei Klick auf Item
-    def handle(event: MouseEvent) {
-      event.getSource match {
-        case treeView: TreeView[_] =>
-          val item = treeView.getSelectionModel.getSelectedItem // TODO: find more accurate solution
-          println("mouseClickedEventHandler TreeView: " + item) // Pfad wird geprintet
-          event.getButton match {
-            case MouseButton.PRIMARY =>
-              if (item != null) {
-                event.getClickCount match {
-                  case 1 => // preview file within application
-                    fileViewerPane.getChildren.clear()
-                    val viewNode = FileViewerUtil.createNode(item.getValue.asInstanceOf[File])
-                    fileViewerPane.getChildren.add(viewNode)
-                    AnchorPane.setTopAnchor(viewNode, 0.0)
-                    AnchorPane.setBottomAnchor(viewNode, 0.0)
-                    AnchorPane.setLeftAnchor(viewNode, 0.0)
-                    AnchorPane.setRightAnchor(viewNode, 0.0)
-                  case 2 =>
-                    // TODO: open in external application
-                    println("left-clicked 2 times")
-                  case n =>
-                    println("left-clicked " + n + " times")
-                }
-              }
-            case MouseButton.SECONDARY => println("right-click (MouseButton.SECONDARY)")
-            case _ => println("neither right- nor left-click")
-          }
-        case a =>
-          println("mouseClickedEventHandler otherClass: " + a.getClass) // wird als "null" gematch, wenn auf "expand"-Arrow geklickt wird
-      }
-    }
-  }
 
 }

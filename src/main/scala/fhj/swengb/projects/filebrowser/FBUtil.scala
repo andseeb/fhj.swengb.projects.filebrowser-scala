@@ -2,12 +2,15 @@ package fhj.swengb.projects.filebrowser
 
 
 import java.io.File
+import javafx.application.Platform
 import javafx.beans.value.{ObservableValue, ChangeListener}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.event.EventHandler
-import javafx.scene.control.{TreeCell, TreeView}
+import javafx.fxml.FXML
+import javafx.scene.control.{TreeItem, TreeCell, TreeView}
 import javafx.scene.image.ImageView
-import javafx.scene.input.DragEvent
+import javafx.scene.input.{MouseButton, MouseEvent, DragEvent}
+import javafx.scene.layout.AnchorPane
 import javafx.util.Callback
 
 import scala.collection.JavaConversions
@@ -63,6 +66,7 @@ object FbUtil {
 
             }
           })
+          setOnMouseClicked(mouseClickedEventHandler)
         }
         else {
           setText(null)
@@ -72,4 +76,42 @@ object FbUtil {
     }
     new ATreeCell()
   }
+
+  def mouseClickedEventHandler[_ >:MouseEvent] = new EventHandler[MouseEvent]() { // // Bei Klick auf Cell
+    def handle(event: MouseEvent) {
+      event.getSource match {
+        case treeCell: TreeCell[_] =>
+          val item = treeCell.getTreeItem
+          println("mouseClickedEventHandler TreeView: " + item) // Pfad wird geprintet
+          event.getButton match {
+            case MouseButton.PRIMARY =>
+              if (item != null) {
+                event.getClickCount match {
+                  case 1 => // preview file within application
+                    var fileViewerPane: AnchorPane = event.getSource.asInstanceOf[TreeCell[File]].getScene.lookup("#fileViewerPane").asInstanceOf[AnchorPane]
+                    fileViewerPane.getChildren
+                    fileViewerPane.getChildren.clear()
+                    val viewNode = FileViewerUtil.createNode(item.getValue.asInstanceOf[File])
+                    fileViewerPane.getChildren.add(viewNode)
+                    AnchorPane.setTopAnchor(viewNode, 0.0)
+                    AnchorPane.setBottomAnchor(viewNode, 0.0)
+                    AnchorPane.setLeftAnchor(viewNode, 0.0)
+                    AnchorPane.setRightAnchor(viewNode, 0.0)
+                  case 2 =>
+                    // TODO: open in external application
+                    println("left-clicked 2 times")
+                  case n =>
+                    println("left-clicked " + n + " times")
+                }
+              }
+            case MouseButton.SECONDARY => println("right-click (MouseButton.SECONDARY)")
+            case _ => println("neither right- nor left-click")
+          }
+        case a =>
+          println("mouseClickedEventHandler otherClass: " + a.getClass) // wird als "null" gematch, wenn auf "expand"-Arrow geklickt wird
+      }
+    }
+  }
+
+
 }
