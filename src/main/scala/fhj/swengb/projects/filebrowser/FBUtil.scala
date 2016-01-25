@@ -4,8 +4,10 @@ package fhj.swengb.projects.filebrowser
 import java.io.File
 import javafx.beans.value.{ObservableValue, ChangeListener}
 import javafx.collections.{FXCollections, ObservableList}
+import javafx.event.EventHandler
 import javafx.scene.control.{TreeCell, TreeView}
 import javafx.scene.image.ImageView
+import javafx.scene.input.DragEvent
 import javafx.util.Callback
 
 import scala.collection.JavaConversions
@@ -56,6 +58,11 @@ object FbUtil {
             case _ => new ImageView("/fhj/swengb/projects/filebrowser/file.png")
           }
           setGraphic(iconView)
+          setOnDragDropped(new EventHandler[DragEvent]() {
+            def handle(event: DragEvent): Unit = {
+
+            }
+          })
         }
         else {
           setText(null)

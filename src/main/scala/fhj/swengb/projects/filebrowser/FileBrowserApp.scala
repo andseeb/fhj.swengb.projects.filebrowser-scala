@@ -86,8 +86,11 @@ class FileBrowserAppController extends Initializable {
     for (file <- files) { // für alle Files im Ordner
       if (file.isDirectory) { // wenn Directory
         var childTreeItem = new TreeItem[File](file) // neues TreeItem erstellen
-        childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up ( Platzhalter damit Ordner  mit "expandable" arrow angezeigt wird )
-        childTreeItem.setExpanded(false) // nicht ausgeklappt
+        if (treeItem.getValue.isDirectory && treeItem.getValue.listFiles.nonEmpty) { // wenn Unterodner vorhanden
+          println(treeItem.getValue.getAbsolutePath + treeItem.getValue.listFiles.length)
+          childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up ( Platzhalter damit Ordner  mit "expandable" arrow angezeigt wird )
+          childTreeItem.setExpanded(false) // nicht ausgeklappt
+        }
         treeItem.getChildren.add(childTreeItem) // aktuelles Item als Child hinzufügen
       } else { // wenn nicht directory
         treeItem.getChildren.add(new TreeItem[File](file)) // neues TreeItem erstellen und als Child hinzufügen
@@ -112,8 +115,11 @@ class FileBrowserAppController extends Initializable {
             println(treeItem.getChildren)
 
             treeItem.getChildren.clear() // Platzhalter für arrow wird wieder gelöscht
-            addChildFiles(treeItem, mkObservableFiles(treeItem.getValue.getAbsolutePath)) // Alle Listeninhalte werden als neue ChildElemente hinzugefügt
-            treeItem.setExpanded(true)
+            if (treeItem.getValue.isDirectory && treeItem.getValue.listFiles.nonEmpty) { // wenn Unterodner vorhanden
+              treeItem.getValue.listFiles.toList.foreach(subfile => println("unterodner: " + subfile))
+              addChildFiles(treeItem, mkObservableFiles(treeItem.getValue.getAbsolutePath)) // Alle Listeninhalte werden als neue ChildElemente hinzugefügt
+              treeItem.setExpanded(true)
+            }
           }
           case a => { // sollte nie zu verwendung kommen da nur auf TreeItems geklickt werden kann (bis jetzt)
             println("expandedEventHandler otherClass: " + a.getClass)

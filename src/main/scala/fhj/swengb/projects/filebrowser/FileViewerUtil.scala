@@ -17,7 +17,12 @@ object FileViewerUtil {
       textArea
 
     case picture if FilePropertiesUtil.isPicture(file) =>
-      new ImageView(file.toURI.toString)
+      val y = new ImageView(file.toURI.toString)
+      y.setFitWidth(300)
+      y.setPreserveRatio(true)
+      y.setSmooth(true)
+      y.setCache(true)
+      y
 
     case _ =>
       val defaultNode = new BorderPane()
