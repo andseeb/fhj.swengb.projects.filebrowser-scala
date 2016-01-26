@@ -9,9 +9,10 @@ import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.control.{TreeItem, TreeCell, TreeView}
 import javafx.scene.image.ImageView
-import javafx.scene.input.{MouseButton, MouseEvent, DragEvent}
+import javafx.scene.input._
 import javafx.scene.layout.AnchorPane
 import javafx.util.Callback
+import scala.collection.JavaConverters._
 
 import scala.collection.JavaConversions
 
@@ -61,9 +62,36 @@ object FbUtil {
             case _ => new ImageView("/fhj/swengb/projects/filebrowser/file.png")
           }
           setGraphic(iconView)
+          // https://docs.oracle.com/javase/8/javafx/events-tutorial/drag-drop.htm
+          setOnDragDetected(new EventHandler[MouseEvent] {
+            override def handle(event: MouseEvent): Unit = {
+              // start dragn'n'drop gesture
+              val db : Dragboard = startDragAndDrop(TransferMode.MOVE)
+              val content : ClipboardContent = new ClipboardContent()
+              content.putFiles(List(t.asInstanceOf[File]).asJava)
+              db.setContent(content)
+              event.consume()
+            }
+          })
+          setOnDragOver(new EventHandler[DragEvent] {
+            override def handle(event: DragEvent): Unit = {
+              // disallow dragging on itself
+              if (event.getGestureSource != t && event.getDragboard.hasFiles) {
+                event.acceptTransferModes(TransferMode.MOVE)
+                event.consume()
+              }
+            }
+          })
           setOnDragDropped(new EventHandler[DragEvent]() {
             def handle(event: DragEvent): Unit = {
-
+              val db : Dragboard = event.getDragboard
+              if (db.hasFiles) {
+                setItem(db.getFiles.get(0).asInstanceOf[T])
+                event.setDropCompleted(true)
+              } else {
+                event.setDropCompleted(false)
+              }
+              event.consume()
             }
           })
           setOnMouseClicked(mouseClickedEventHandler)
