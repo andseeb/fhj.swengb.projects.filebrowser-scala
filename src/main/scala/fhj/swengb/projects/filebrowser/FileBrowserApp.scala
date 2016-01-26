@@ -83,13 +83,14 @@ class FileBrowserAppController extends Initializable {
 
 
   def addChildFiles(treeItem: TreeItem[File], files: ObservableList[File]): Unit = {
-    try {
-      for (file <- files) {
+
+    for (file <- files) {
+      try {
         // für alle Files im Ordner
         if (file.isDirectory) {
           // wenn Directory
           var childTreeItem = new TreeItem[File](file) // neues TreeItem erstellen
-          if (file.isDirectory && file.listFiles.nonEmpty) { // wenn Unterodner vorhanden
+          if (file.isDirectory  && file.listFiles.nonEmpty) { // wenn Unterodner vorhanden
             childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up ( Platzhalter damit Ordner  mit "expandable" arrow angezeigt wird )
             childTreeItem.setExpanded(false) // nicht ausgeklappt
           }
@@ -98,10 +99,11 @@ class FileBrowserAppController extends Initializable {
           // wenn nicht directory
           treeItem.getChildren.add(new TreeItem[File](file)) // neues TreeItem erstellen und als Child hinzufügen
         }
-      }
-    }
-    catch {
-      case e: Exception => println(e.getMessage)
+
+        }
+        catch {
+          case e: Exception => println("File loading error: " + e.getMessage)
+        }
     }
   }
 
