@@ -15,6 +15,7 @@ object FileViewerUtil {
         // TODO: create case for folders
         case textFile if FilePropertiesUtil.isTextFile(file) =>
           val textArea = new TextArea()
+          textArea.setId("text")
           textArea.setText(scala.io.Source.fromFile(textFile).getLines.mkString("\n")) // TODO: verify if correct character encoding is chosen automatically
           textArea
 
@@ -31,7 +32,7 @@ object FileViewerUtil {
       case e: Exception => println(e.getMessage)
       val defaultNode = new BorderPane()
       defaultNode.setCenter(new Label("No preview available"))
-      //defaultNode.setStyle("-fx-background-color: gray;")
+      defaultNode.setId("noprev")
       defaultNode
     }
   }

@@ -1,21 +1,53 @@
-.tree-cell {
+.tree-cell{
     -fx-font-size: 13pt;
-}
-/*
-.tree-cell .tree-disclosure-node .arrow {
-    -fx-shape: null;
-    -fx-background-color: null;
-    -fx-background-image: url("/fhj/swengb/projects/filebrowser/folder-2.png");
-    -fx-background-size: cover;
-}
-.tree-cell:expanded .tree-disclosure-node .arrow {
-    -fx-shape: null;
-    -fx-background-color: null;
-    -fx-background-image: url("/fhj/swengb/projects/filebrowser/folder-2.png");
-    -fx-background-size: cover;
+    -fx-background-color: #E6E6E6;
+    -fx-font-family: Arial, sans-serif;
 }
 
-.tree-cell .folder {
-    -fx-background-image: url("/fhj/swengb/projects/filebrowser/folder-2.png");
-    -fx-background-size: cover;
-}*/
+.tree-cell:filled:selected {
+    -fx-font-size: 13pt;
+    -fx-background-color: #58D3F7;
+    -fx-font-family: Arial, sans-serif;
+}
+
+#heading {
+    -fx-text-alignment: right;
+    -fx-font-size: 25pt;
+    -fx-background-color: #E6E6E6;
+    -fx-text-fill: #04B404;
+    -fx-max-width: Infinity;
+}
+
+#fileViewerPane{
+
+    -fx-image-alignment: center;
+
+}
+
+#preview {
+    -fx-font-size: 25pt;
+    -fx-background-color: #E6E6E6;
+    -fx-text-alignment: center;
+
+
+}
+#noprev {
+    -fx-font-size: 25pt;
+    -fx-background-color: #E6E6E6;
+    -fx-text-alignment: center;
+
+}
+#fileViewerPane{
+    -fx-background-color: #E6E6E6;
+
+
+}
+
+#text .content{
+
+    -fx-background-color: #E6E6E6;
+}
+
+#text{
+    -fx-font-size: 13pt;
+}
