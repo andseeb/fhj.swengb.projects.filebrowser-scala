@@ -1,46 +1,47 @@
 # fhj.swengb.projects.filebrowser-scala
 
 #File Browser
+
+
+
+
+### __Functions:__
+
+* __Root with Subfolder__ 
 ![Ohne CSS](ohne_css.png)
 
-##How it looks like without CSS-File
-
-
+* __CSS for Style__ 
 ![Startansicht](Startansicht.png)
 
+* __Expand Tree__ 
 
-### Functions:
+* __Preview of files:__
 
-* Root with Subfolder --> Treeview
-* Expand Tree
-* Preview of files:
-    * Text files (.txt , .css , .scala ,...) -> Image 3
-    * Image files (.png , .jpg , .bmp ,...) -> Image 4
-    * No Preview -> Image 5
-* Appropriate file icon: -> Image 6
+    * Text files (.txt , .css , .scala ,...)
+    Left MouseButton on the file to open the preview
+![Text Ansicht](TXT_Preview.png)
+    
+    * Image files (.png , .jpg , .bmp ,...)
+    Left MouseButton on the file to open the preview
+![Bilder Ansicht](Picture_Preview.png)
+    * No Preview
+![Bilder Ansicht](No_preview.png)
+
+* __Appropriate file icon:__
+
     * Text
+    
     * Picture
+    
     * Executable file
+    
     * Other
-* Drag and Drop -> Image 7
+
+* __Drag and Drop__
     * Move a file or folder by dragging and dropping it
+    Left MouseButton on the file/folder then drag it to the desired position
 
 
 
 
 
-
-### Currently known issues:
-* "Hard" difficulty missing
-* "Medium" difficulty is very slow
-* No high-score functionality
-
-
-
-![TicTacToe Screenshot](screenshot2.PNG?raw=true)
-
-
-![TicTacToe Screenshot](screenshot3.PNG?raw=true)
-
-
-![TicTacToe Screenshot](screenshot4.PNG?raw=true)
