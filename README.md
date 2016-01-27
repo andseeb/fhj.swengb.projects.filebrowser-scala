@@ -54,6 +54,7 @@ The visual appearance is achieved by the use of a CSS-file.
 * __Open with external program__
 
     * Double Click with left MouseButton to open the file with the assigned program
+    * Note: There is a bug in certain JVM versions that causes the application to freeze
 
 
 
