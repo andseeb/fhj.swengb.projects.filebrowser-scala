@@ -60,7 +60,7 @@ class FileBrowserAppController extends Initializable {
 
     // root Node
     val root: TreeItem[File] = new TreeItem[File](new File("/")) // root Node wird erstellt
-    addChildFiles(root, mkObservableFiles("/")) // root wird befüllt
+    FbUtil.addChildFiles(root, FbUtil.mkObservableFiles("/")) // root wird befüllt
     root.setExpanded(true) // ausklappen von root node
 
     val treeView: TreeView[File] = new TreeView[File](root) // Tree wird erstellt
@@ -77,37 +77,6 @@ class FileBrowserAppController extends Initializable {
     mainScrollPane.setContent(treeView) // Treeview in ScrollPane einfügen
   }
 
-  // helper methods
-
-  def mkObservableFiles(path: String) = FbUtil.mkObservableList(new File(path).listFiles().sortBy(_.getName)) // Ruft mkObservableList Funktion aus FBUtil.scala file auf
-
-
-  def addChildFiles(treeItem: TreeItem[File], files: ObservableList[File]): Unit = {
-
-    for (file <- files) {
-      try {
-        // für alle Files im Ordner
-        if (file.isDirectory) {
-          // wenn Directory
-          var childTreeItem = new TreeItem[File](file) // neues TreeItem erstellen
-          if (file.isDirectory  && file.listFiles.nonEmpty) { // wenn Unterodner vorhanden
-            childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up ( Platzhalter damit Ordner  mit "expandable" arrow angezeigt wird )
-            childTreeItem.setExpanded(false) // nicht ausgeklappt
-          }
-          treeItem.getChildren.add(childTreeItem) // aktuelles Item als Child hinzufügen
-        } else {
-          // wenn nicht directory
-          treeItem.getChildren.add(new TreeItem[File](file)) // neues TreeItem erstellen und als Child hinzufügen
-        }
-
-        }
-        catch {
-          case e: Exception => println("File loading error: " + e.getMessage)
-        }
-    }
-  }
-
-
 
   // event handlers, etc..
 
@@ -123,12 +92,7 @@ class FileBrowserAppController extends Initializable {
           println(treeItem.valueProperty().get().getAbsolutePath) // Print auswahl
           println(treeItem.getChildren)
 
-          treeItem.getChildren.clear() // Platzhalter für arrow wird wieder gelöscht
-          if (treeItem.getValue.isDirectory && treeItem.getValue.listFiles.nonEmpty) { // wenn Unterodner vorhanden
-            treeItem.getValue.listFiles.toList.foreach(subfile => println("unterodner: " + subfile))
-            addChildFiles(treeItem, mkObservableFiles(treeItem.getValue.getAbsolutePath)) // Alle Listeninhalte werden als neue ChildElemente hinzugefügt
-            treeItem.setExpanded(true)
-          }
+          FbUtil.refreshTreeItemNode(treeItem)
         }
         case a => { // sollte nie zu verwendung kommen da nur auf TreeItems geklickt werden kann (bis jetzt)
           println("expandedEventHandler otherClass: " + a.getClass)
@@ -136,6 +100,7 @@ class FileBrowserAppController extends Initializable {
       }
     }
   }
+
 
 
 }

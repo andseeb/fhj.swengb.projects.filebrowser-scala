@@ -2,7 +2,7 @@ package fhj.swengb.projects.filebrowser
 
 
 import java.io.File
-import java.nio.file.{Path, Files}
+import java.nio.file.{StandardCopyOption, Path, Files}
 import javafx.application.Platform
 import javafx.beans.value.{ObservableValue, ChangeListener}
 import javafx.collections.{FXCollections, ObservableList}
@@ -19,6 +19,45 @@ import scala.collection.JavaConverters._
 import scala.collection.JavaConversions
 
 object FbUtil {
+  def refreshTreeItemNode(treeItem: TreeItem[File]) : Unit = {
+    treeItem.getChildren.clear() // Platzhalter für arrow wird wieder gelöscht
+    if (treeItem.getValue.isDirectory && treeItem.getValue.listFiles.nonEmpty) { // wenn Unterodner vorhanden
+      treeItem.getValue.listFiles.toList.foreach(subfile => println("unterodner: " + subfile))
+      addChildFiles(treeItem, mkObservableFiles(treeItem.getValue.getAbsolutePath)) // Alle Listeninhalte werden als neue ChildElemente hinzugefügt
+      treeItem.setExpanded(true)
+    }
+  }
+
+
+  // helper methods
+
+  def mkObservableFiles(path: String) = FbUtil.mkObservableList(new File(path).listFiles().sortBy(_.getName)) // Ruft mkObservableList Funktion aus FBUtil.scala file auf
+
+
+  def addChildFiles(treeItem: TreeItem[File], files: ObservableList[File]): Unit = {
+    for (file <- files.asScala) {
+      try {
+        // für alle Files im Ordner
+        if (file.isDirectory) {
+          // wenn Directory
+          var childTreeItem = new TreeItem[File](file) // neues TreeItem erstellen
+          if (file.isDirectory  && file.listFiles.nonEmpty) { // wenn Unterodner vorhanden
+            childTreeItem.getChildren.add(new TreeItem[File](new File(" - just in time loading - "))) // set a child so that the "expandable"-arrow icon schows up ( Platzhalter damit Ordner  mit "expandable" arrow angezeigt wird )
+            childTreeItem.setExpanded(false) // nicht ausgeklappt
+          }
+          treeItem.getChildren.add(childTreeItem) // aktuelles Item als Child hinzufügen
+        } else {
+          // wenn nicht directory
+          treeItem.getChildren.add(new TreeItem[File](file)) // neues TreeItem erstellen und als Child hinzufügen
+        }
+
+      }
+      catch {
+        case e: Exception => println("File loading error: " + e.getMessage)
+      }
+    }
+  }
+
 
 
   type TreeCellFactory[T] = Callback[TreeView[T], TreeCell[T]]
@@ -63,6 +102,8 @@ object FbUtil {
             case executable if FilePropertiesUtil.isExecFile(executable) => new ImageView("/fhj/swengb/projects/filebrowser/exe.png")
             case _ => new ImageView("/fhj/swengb/projects/filebrowser/file.png")
           }
+          iconView.setFitWidth(24)
+          iconView.setPreserveRatio(true)
           setGraphic(iconView)
           // https://docs.oracle.com/javase/8/javafx/events-tutorial/drag-drop.htm
           setOnDragDetected(new EventHandler[MouseEvent] {
@@ -77,8 +118,11 @@ object FbUtil {
           })
           setOnDragOver(new EventHandler[DragEvent] {
             override def handle(event: DragEvent): Unit = {
-              // disallow dragging on itself
-              if (event.getGestureSource != t && event.getDragboard.hasFiles) {
+              // disallow dragging on itself and on parent folder
+              val src =  event.getGestureSource.asInstanceOf[TreeCell[File]].getItem
+              val dest = getItem.asInstanceOf[File]
+              val srcParentFolder = src.getParentFile
+              if (dest != src && dest != srcParentFolder) {
                 event.acceptTransferModes(TransferMode.MOVE)
                 event.consume()
               }
@@ -93,9 +137,10 @@ object FbUtil {
                 // http://codingjunkie.net/java-7-copy-move/
                 val sourcePath = db.getFiles.get(0).toPath
                 val basePath = new File("/").toPath
-                val targetPath = getItem.asInstanceOf[File].toPath
-                Files.move(sourcePath, targetPath.resolve(basePath.relativize(sourcePath)))
+                val targetPath = getItem.asInstanceOf[File].toPath.resolve(sourcePath.getFileName)
+                Files.move(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING)
                 event.setDropCompleted(true)
+                refreshTreeItemNode(getTreeItem.asInstanceOf[TreeItem[File]])
               } catch {
                 case e: Exception =>
                   e.printStackTrace()
@@ -111,6 +156,8 @@ object FbUtil {
                 getChildren.clear()
                 setText(null)
                 setGraphic(null)
+                refreshTreeItemNode(getTreeItem.asInstanceOf[TreeItem[File]].getParent)
+
               }
 
               event.consume()
