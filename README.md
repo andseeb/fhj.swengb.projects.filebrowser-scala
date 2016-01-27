@@ -48,7 +48,7 @@ The visual appearance is achieved by the use of a CSS-file.
     * Move a file or folder by dragging and dropping it
 
     Left MouseButton on the file/folder then drag it to the desired position
-    Careful! Already existing files will be overwritten!
+    __Careful! Already existing files will be overwritten!__
 
 
 * __Open with external program__
