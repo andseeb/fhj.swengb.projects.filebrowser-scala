@@ -21,22 +21,22 @@ The visual appearance is achieved by the use of a CSS-file.
 
 * __Preview of files:__
 
-    * Text files (.txt , .css , .scala ,...)
+    Text files (.txt , .css , .scala ,...)
     Left MouseButton on the file to open the preview
 
 ![Text Ansicht](TXT_Preview.png)
     
-    * Image files (.png , .jpg , .bmp ,...)
+    Image files (.png , .jpg , .bmp ,...)
     Left MouseButton on the file to open the preview
 
 ![Bilder Ansicht](Picture_Preview.png)
 
-    * Audio Player(.mp3 , .wav , .aac ,...)
+    Audio Player(.mp3 , .wav , .aac ,...)
     Left MouseButton on the file to open the player in the preview-window
 
 ![Audio Player] (audio.png)
 
-    * Video Player(.mp3 , .wav , .aac ,...)
+    Video Player(.mp3 , .wav , .aac ,...)
     Left MouseButton on the file to open the player in the preview-window
 
 ![Video Player] (video.png)
