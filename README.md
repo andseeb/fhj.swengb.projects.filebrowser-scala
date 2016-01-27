@@ -3,7 +3,7 @@
 
 3rd assignment for SWENGB course: A Tic Tac Toe game using Scala and JavaFX 8
 
-![FileBrowser Screenshot](Startansicht.PNG?raw=true)
+![Startansicht](Startansicht.png "Optional Title")
 
 ### Gui Features:
 
