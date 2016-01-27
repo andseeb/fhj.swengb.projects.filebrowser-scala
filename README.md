@@ -34,12 +34,12 @@ The visual appearance is achieved by the use of a CSS-file.
     * Audio Player(.mp3 , .wav , .aac ,...)
     Left MouseButton on the file to open the player in the preview-window
 
-![Audio Player] (Audio_Player.png)
+![Audio Player] (audio.png)
 
     * Video Player(.mp3 , .wav , .aac ,...)
     Left MouseButton on the file to open the player in the preview-window
 
-![Video Player] (Video_Player.png)
+![Video Player] (video.png)
 
     * No Preview
 

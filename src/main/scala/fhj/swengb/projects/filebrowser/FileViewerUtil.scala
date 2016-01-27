@@ -30,7 +30,7 @@ object FileViewerUtil {
 
         case audioFile if FilePropertiesUtil.isAudioFile(file) =>
           val webview = new WebView
-          webview.getEngine.loadContent(s"<audio controls><source src='${file.toURI}' type='audio/mpeg'>No preview available.</audio>")
+          webview.getEngine.loadContent(s"<audio autoplay controls><source src='${file.toURI}' type='audio/mpeg'>No preview available.</audio>")
           webview
 
         case videoFile if FilePropertiesUtil.isVideoFile(file) =>
@@ -40,7 +40,7 @@ object FileViewerUtil {
             else if (FilePropertiesUtil.isOggFile(file)) "video/ogg"
             else throw new IllegalArgumentException
           }
-          webview.getEngine.loadContent(s"<video controls><source src='${file.toURI}' type='$fileType'>No preview available.</video>")
+          webview.getEngine.loadContent(s"<video width='450' autoplay controls><source src='${file.toURI}' type='$fileType'>No preview available.</video>")
           webview
       }
     } catch {
