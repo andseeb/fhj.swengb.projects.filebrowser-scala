@@ -2,9 +2,9 @@
 
 #File Browser
 
-The program mimics the behavior of the windows file explorer. There is a TreeView to show all folders, subfolders and files.
-A Preview for text files and pictures is implemented. Moving files around by drag´n drop is implemented.
-The visual appearance is achieved by the use of a CSS-file.
+This program mimics the behavior of the windows file explorer. There is a TreeView to show all folders, subfolders and files.
+Additionally, there's a built- preview available, that works with common text, picture, audio and video files. Moving files and folders from one direction to the other by drag'n'drop gestures is also supported.
+The visual appearance is taken care of by the usage of CSS.
 
 
 ### __Functions:__
