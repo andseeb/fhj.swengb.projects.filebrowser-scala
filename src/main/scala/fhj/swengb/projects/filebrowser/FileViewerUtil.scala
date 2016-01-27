@@ -5,6 +5,7 @@ import javafx.scene.Node
 import javafx.scene.control.{Label, TextField, TextArea}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{BorderPane, AnchorPane}
+import javafx.scene.web.WebView
 
 
 object FileViewerUtil {
@@ -26,6 +27,11 @@ object FileViewerUtil {
           y.setSmooth(true)
           y.setCache(true)
           y
+
+        case audioFile if FilePropertiesUtil.isAudioFile(file) =>
+          val webview = new WebView
+          webview.getEngine.loadContent(s"<audio controls><source src='${file.toURI}' type='audio/mpeg'>No preview available.</audio>")
+          webview
       }
     } catch {
       // catch if different filetype or exception occured while loading file

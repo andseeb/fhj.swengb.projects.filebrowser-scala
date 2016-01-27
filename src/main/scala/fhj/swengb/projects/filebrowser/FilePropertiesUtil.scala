@@ -26,4 +26,9 @@ object FilePropertiesUtil {
       file.getName.endsWith(".msi") | file.getName.endsWith(".sh")
 
   }
+  def isAudioFile(file: File) : Boolean = {
+    file.getName.endsWith(".mp3") | file.getName.endsWith(".wav") |
+      file.getName.endsWith(".m4a") | file.getName.endsWith(".aac")
+
+  }
 }
