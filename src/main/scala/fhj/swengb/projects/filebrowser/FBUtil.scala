@@ -1,7 +1,9 @@
 package fhj.swengb.projects.filebrowser
 
 
+import java.awt.Desktop
 import java.io.File
+import java.net.URI
 import java.nio.file.{StandardCopyOption, Path, Files}
 import javafx.application.Platform
 import javafx.beans.value.{ObservableValue, ChangeListener}
@@ -195,8 +197,10 @@ object FbUtil {
                     AnchorPane.setLeftAnchor(viewNode, 0.0)
                     AnchorPane.setRightAnchor(viewNode, 0.0)
                   case 2 =>
-                    // TODO: open in external application
-                    println("left-clicked 2 times")
+                    // open in external application
+                    if (Desktop.isDesktopSupported && !item.getValue.asInstanceOf[File].isDirectory) {
+                        Desktop.getDesktop.open(item.getValue.asInstanceOf[File])
+                    }
                   case n =>
                     println("left-clicked " + n + " times")
                 }
