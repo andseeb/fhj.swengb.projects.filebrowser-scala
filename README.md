@@ -41,6 +41,9 @@
     * Move a file or folder by dragging and dropping it
     Left MouseButton on the file/folder then drag it to the desired position
 
+* __Open with external program__
+    * Double Click with left MouseButton to open the file with the assigned program
+
 
 
 
