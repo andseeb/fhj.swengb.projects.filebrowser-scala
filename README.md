@@ -30,6 +30,17 @@ The visual appearance is achieved by the use of a CSS-file.
     Left MouseButton on the file to open the preview
 
 ![Bilder Ansicht](Picture_Preview.png)
+
+    * Audio Player(.mp3 , .wav , .aac ,...)
+    Left MouseButton on the file to open the player in the preview-window
+
+![Audio Player] (Audio_Player.png)
+
+    * Video Player(.mp3 , .wav , .aac ,...)
+    Left MouseButton on the file to open the player in the preview-window
+
+![Video Player] (Video_Player.png)
+
     * No Preview
 
 ![Bilder Ansicht](No_preview.png)

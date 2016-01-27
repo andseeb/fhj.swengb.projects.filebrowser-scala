@@ -102,6 +102,8 @@ object FbUtil {
             case textFile if FilePropertiesUtil.isTextFile(textFile) => new ImageView("/fhj/swengb/projects/filebrowser/txt.png")
             case picture if FilePropertiesUtil.isPicture(picture) => new ImageView("/fhj/swengb/projects/filebrowser/picture.png")
             case executable if FilePropertiesUtil.isExecFile(executable) => new ImageView("/fhj/swengb/projects/filebrowser/exe.png")
+            case audio if FilePropertiesUtil.isAudioFile(audio) => new ImageView("/fhj/swengb/projects/filebrowser/audio.png")
+            case video if FilePropertiesUtil.isVideoFile(video) => new ImageView("/fhj/swengb/projects/filebrowser/video.png")
             case _ => new ImageView("/fhj/swengb/projects/filebrowser/file.png")
           }
           iconView.setFitWidth(24)
