@@ -24,7 +24,7 @@ object FbUtil {
   def refreshTreeItemNode(treeItem: TreeItem[File]) : Unit = {
     treeItem.getChildren.clear() // Platzhalter für arrow wird wieder gelöscht
     if (treeItem.getValue.isDirectory && treeItem.getValue.listFiles.nonEmpty) { // wenn Unterodner vorhanden
-      treeItem.getValue.listFiles.toList.foreach(subfile => println("unterodner: " + subfile))
+      // treeItem.getValue.listFiles.toList.foreach(subfile =>  println("unterodner: " + subfile))
       addChildFiles(treeItem, mkObservableFiles(treeItem.getValue.getAbsolutePath)) // Alle Listeninhalte werden als neue ChildElemente hinzugefügt
       treeItem.setExpanded(true)
     }
@@ -156,7 +156,7 @@ object FbUtil {
           setOnDragDone(new EventHandler[DragEvent] { // on source
             override def handle(event: DragEvent): Unit = {
               if (event.getTransferMode == TransferMode.MOVE){
-                println("setOnDragDone event.getTransferMode")
+               // println("setOnDragDone event.getTransferMode")
                 getChildren.clear()
                 setText(null)
                 setGraphic(null)
@@ -183,7 +183,7 @@ object FbUtil {
       event.getSource match {
         case treeCell: TreeCell[_] =>
           val item = treeCell.getTreeItem
-          println("mouseClickedEventHandler TreeView: " + item) // Pfad wird geprintet
+         // println("mouseClickedEventHandler TreeView: " + item) // Pfad wird geprintet
           event.getButton match {
             case MouseButton.PRIMARY =>
               if (item != null) {
@@ -204,14 +204,14 @@ object FbUtil {
                         Desktop.getDesktop.open(item.getValue.asInstanceOf[File])
                     }
                   case n =>
-                    println("left-clicked " + n + " times")
+                  //  println("left-clicked " + n + " times")
                 }
               }
-            case MouseButton.SECONDARY => println("right-click (MouseButton.SECONDARY)")
-            case _ => println("neither right- nor left-click")
+            case MouseButton.SECONDARY => // println("right-click (MouseButton.SECONDARY)")
+            case _ => // println("neither right- nor left-click")
           }
         case a =>
-          println("mouseClickedEventHandler otherClass: " + a.getClass) // wird als "null" gematch, wenn auf "expand"-Arrow geklickt wird
+         // println("mouseClickedEventHandler otherClass: " + a.getClass) // wird als "null" gematch, wenn auf "expand"-Arrow geklickt wird
       }
     }
   }

@@ -45,11 +45,11 @@ object FileViewerUtil {
       }
     } catch {
       // catch if different filetype or exception occured while loading file
-      case e: Exception => println(e.getMessage)
-      val defaultNode = new BorderPane()
-      defaultNode.setCenter(new Label("No preview available"))
-      defaultNode.setId("noprev")
-      defaultNode
+      case e: Exception =>
+        val defaultNode = new BorderPane()
+        defaultNode.setCenter(new Label("No preview available"))
+        defaultNode.setId("noprev")
+        defaultNode
     }
   }
 }

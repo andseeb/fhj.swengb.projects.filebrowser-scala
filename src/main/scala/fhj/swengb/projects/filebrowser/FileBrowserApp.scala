@@ -81,21 +81,21 @@ class FileBrowserAppController extends Initializable {
   // event handlers, etc..
 
   def selectFile(oldFile: TreeItem[File], newFile: TreeItem[File]): Unit = {
-    println("selectedFile: " + newFile) // print selected File (not in use yet)
+    //println("selectedFile: " + newFile) // print selected File (not in use yet)
   }
 
   def expandedEventHandler[_ >:TreeModificationEvent[File]] = new EventHandler[TreeModificationEvent[File]]() { // bei klick auf expand Ordner in GUI
     def handle(event: TreeModificationEvent[File]) {
       event.getSource match {
         case treeItem: TreeItem[_] => {
-          println("expandedEventHandler TreeItem: " + treeItem)
-          println(treeItem.valueProperty().get().getAbsolutePath) // Print auswahl
-          println(treeItem.getChildren)
+         // println("expandedEventHandler TreeItem: " + treeItem)
+         // println(treeItem.valueProperty().get().getAbsolutePath) // Print auswahl
+         // println(treeItem.getChildren)
 
           FbUtil.refreshTreeItemNode(treeItem)
         }
         case a => { // sollte nie zu verwendung kommen da nur auf TreeItems geklickt werden kann (bis jetzt)
-          println("expandedEventHandler otherClass: " + a.getClass)
+         // println("expandedEventHandler otherClass: " + a.getClass)
         }
       }
     }
