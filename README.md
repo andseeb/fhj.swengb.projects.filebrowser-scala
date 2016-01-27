@@ -1,9 +1,12 @@
 # fhj.swengb.projects.filebrowser-scala
 
+#File Browser
+![Ohne CSS](ohne_css.png)
+How it looks like without CSS-File
 
-3rd assignment for SWENGB course: A Tic Tac Toe game using Scala and JavaFX 8
 
-![Startansicht](Startansicht.png "Optional Title")
+![Startansicht](Startansicht.png)
+
 
 ### Gui Features:
 
