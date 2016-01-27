@@ -23,12 +23,15 @@ The visual appearance is achieved by the use of a CSS-file.
 
     * Text files (.txt , .css , .scala ,...)
     Left MouseButton on the file to open the preview
+
 ![Text Ansicht](TXT_Preview.png)
     
     * Image files (.png , .jpg , .bmp ,...)
     Left MouseButton on the file to open the preview
+
 ![Bilder Ansicht](Picture_Preview.png)
     * No Preview
+
 ![Bilder Ansicht](No_preview.png)
 
 * __Appropriate file icon:__
@@ -45,6 +48,7 @@ The visual appearance is achieved by the use of a CSS-file.
     * Move a file or folder by dragging and dropping it
 
     Left MouseButton on the file/folder then drag it to the desired position
+    Careful! Already existing files will be overwritten!
 
 
 * __Open with external program__
