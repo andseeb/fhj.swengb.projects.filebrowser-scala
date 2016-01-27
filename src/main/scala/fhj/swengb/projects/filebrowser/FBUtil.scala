@@ -2,11 +2,13 @@ package fhj.swengb.projects.filebrowser
 
 
 import java.io.File
+import java.nio.file.{Path, Files}
 import javafx.application.Platform
 import javafx.beans.value.{ObservableValue, ChangeListener}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.event.EventHandler
 import javafx.fxml.FXML
+import javafx.scene.Node
 import javafx.scene.control.{TreeItem, TreeCell, TreeView}
 import javafx.scene.image.ImageView
 import javafx.scene.input._
@@ -82,15 +84,35 @@ object FbUtil {
               }
             }
           })
-          setOnDragDropped(new EventHandler[DragEvent]() {
+          setOnDragDropped(new EventHandler[DragEvent]() { // on target
             def handle(event: DragEvent): Unit = {
               val db : Dragboard = event.getDragboard
-              if (db.hasFiles) {
-                setItem(db.getFiles.get(0).asInstanceOf[T])
+              try {
+                if (!db.hasFiles) throw new Exception()
+                //setItem(db.getFiles.get(0).asInstanceOf[T])
+                // http://codingjunkie.net/java-7-copy-move/
+                val sourcePath = db.getFiles.get(0).toPath
+                val basePath = new File("/").toPath
+                val targetPath = getItem.asInstanceOf[File].toPath
+                Files.move(sourcePath, targetPath.resolve(basePath.relativize(sourcePath)))
                 event.setDropCompleted(true)
-              } else {
-                event.setDropCompleted(false)
+              } catch {
+                case e: Exception =>
+                  e.printStackTrace()
+                  event.setDropCompleted(false)
               }
+              event.consume()
+            }
+          })
+          setOnDragDone(new EventHandler[DragEvent] { // on source
+            override def handle(event: DragEvent): Unit = {
+              if (event.getTransferMode == TransferMode.MOVE){
+                println("setOnDragDone event.getTransferMode")
+                getChildren.clear()
+                setText(null)
+                setGraphic(null)
+              }
+
               event.consume()
             }
           })
