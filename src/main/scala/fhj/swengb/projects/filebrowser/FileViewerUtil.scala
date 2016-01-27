@@ -32,6 +32,16 @@ object FileViewerUtil {
           val webview = new WebView
           webview.getEngine.loadContent(s"<audio controls><source src='${file.toURI}' type='audio/mpeg'>No preview available.</audio>")
           webview
+
+        case videoFile if FilePropertiesUtil.isVideoFile(file) =>
+          val webview = new WebView
+          val fileType = {
+            if (FilePropertiesUtil.isMp4File(file)) "video/mp4"
+            else if (FilePropertiesUtil.isOggFile(file)) "video/ogg"
+            else throw new IllegalArgumentException
+          }
+          webview.getEngine.loadContent(s"<video controls><source src='${file.toURI}' type='$fileType'>No preview available.</video>")
+          webview
       }
     } catch {
       // catch if different filetype or exception occured while loading file
