@@ -27,8 +27,18 @@ object FilePropertiesUtil {
 
   }
   def isAudioFile(file: File) : Boolean = {
-    file.getName.endsWith(".mp3") | file.getName.endsWith(".wav") |
-      file.getName.endsWith(".m4a") | file.getName.endsWith(".aac")
+    file.getName.endsWith(".mp3")
 
+  }
+  def isVideoFile(file: File) : Boolean = {
+    file.getName.endsWith(".avi") | file.getName.endsWith(".mp4") |
+      file.getName.endsWith(".wmv")| file.getName.endsWith(".ogg")
+
+  }
+  def isMp4File(file: File) : Boolean = {
+    file.getName.endsWith(".mp4")
+  }
+  def isOggFile(file: File) : Boolean = {
+    file.getName.endsWith(".ogg")
   }
 }
