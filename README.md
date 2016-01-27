@@ -2,15 +2,19 @@
 
 #File Browser
 
-
+The program mimics the behavior of the windows file explorer. There is a TreeView to show all folders, subfolders and files.
+A Preview for text files and pictures is implemented. Moving files around by drag´n drop is implemented.
+The visual appearance is achieved by the use of a CSS-file.
 
 
 ### __Functions:__
 
-* __Root with Subfolder__ 
+* __Root with Subfolder__
+
 ![Ohne CSS](ohne_css.png)
 
-* __CSS for Style__ 
+* __CSS for Style__
+
 ![Startansicht](Startansicht.png)
 
 * __Expand Tree__ 
@@ -39,9 +43,12 @@
 
 * __Drag and Drop__
     * Move a file or folder by dragging and dropping it
+
     Left MouseButton on the file/folder then drag it to the desired position
 
+
 * __Open with external program__
+
     * Double Click with left MouseButton to open the file with the assigned program
 
 
